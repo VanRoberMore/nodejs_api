@@ -1,31 +1,39 @@
+import { Request, Response } from 'express';
+import ProductRepository from '../../typeorm/repositories/ProductRepository';
 
+
+import CreateProductService from '../../../services/CreateProductService';
+import UpdateProductService from '../../../services/UpdateProductService';
+import FindProductByIdService from '../../../services/FindProductByIdService';
+import DeleteProductService from '../../../services/DeleteProductService';
 
 
 class ProductsController {
-    async create(request: Request, response: Response): Promise<Response> {
+    public async create(request: Request, response: Response): Promise<Response> {
         const data = request.body;
 
-        const createProductService = new CreateProductService();
+        const createProduct = new CreateProductService();
 
-        const newProduct = await createProductService.execute(data);
+        const newProduct = await createProduct.execute(data);
 
         return response.json(newProduct);
     }
 
-    async update(request: Request, response: Response): Promise<Response> {
+
+    public async update(request: Request, response: Response): Promise<Response> {
         const { product_id } = request.params;
         const data = request.body;
 
-        const updateProductService = new UpdateProductService();
+        const updateProduct = new UpdateProductService();
 
         const dataToUpdate = { ...data, product_id: Number(product_id) };
 
-        const productUpdated = await updateProductService.execute(dataToUpdate);
+        const productUpdated = await updateProduct.execute(dataToUpdate);
 
         return response.json(productUpdated);
     }
 
-    async index(request: Request, response: Response): Promise<Response> {
+    public async index(request: Request, response: Response): Promise<Response> {
         const productRepository = new ProductRepository();
 
         const allProducts = await productRepository.index();
@@ -34,30 +42,29 @@ class ProductsController {
 
     }
 
-    async findById(request: Request, response: Response): Promise<Response> {
+    public async findById(request: Request, response: Response): Promise<Response> {
         const { product_id } = request.params;
 
-        const findProductByIdService = new FindProductByIdService();
+        const findProductById = new FindProductByIdService();
 
-        const productById = await findProductByIdService.execute(Number(product_id));
+        const productById = await findProductById.execute(Number(product_id));
 
         return response.json(productById);
 
     }
 
-    async delete(request: Request, response: Response): Promise<Response> {
+  
+    public async delete(request: Request, response: Response): Promise<Response> {
         const { product_id } = request.params;
 
-        const deleteProductService = new DeleteProductService();
+        const deleteProduct = new ProductRepository();
 
-        const productById = await deleteProductService.execute(Number(product_id));
+        await deleteProduct.delete(Number(product_id));
 
-        return response.json(productById);
+        return response.json({message: 'Product deleted successfully!'});
 
     }
-
-
-
-
 
 }
+
+export default new ProductsController();

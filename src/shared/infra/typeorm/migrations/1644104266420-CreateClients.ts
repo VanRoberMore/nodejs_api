@@ -1,4 +1,4 @@
-import {MigrationInterface, QueryRunner} from "typeorm";
+import {MigrationInterface, QueryRunner, Table } from "typeorm";
 
 export class CreateClients1644104266420 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
@@ -17,6 +17,12 @@ export class CreateClients1644104266420 implements MigrationInterface {
                         name: "name",
                         type: "varchar",
                         length: "85",
+                        isNullable: false,
+                    },
+                    {
+                        name: "cpf",
+                        type: "varchar",
+                        length: "11",
                         isNullable: false,
                     },
                     {

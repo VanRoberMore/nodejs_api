@@ -9,11 +9,12 @@ export default class CreateCategoryService {
         const categoryRepository = new CategoryRepository();
 
     
-        if (data.category_id) {
+        if (Number(data.category_id)) {
             throw new AppErrors("The ID field should not be sent as it is handled by the DBMS!", 422);
         }
 
-        const category = await categoryRepository.create(data);
-        return category;
+        const newCategory = await categoryRepository.create(data);
+
+        return newCategory;
     }
 }

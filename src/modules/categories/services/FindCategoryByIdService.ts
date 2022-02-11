@@ -7,12 +7,12 @@ export default class FindCategoryByIdService {
     public async execute(category_id: number): Promise<Category | undefined> {
         const categoryRepository = new CategoryRepository();
 
-        if (!category_id) {
-            throw new AppErrors("ID not valid | Category not found", 404);
+        const categoryById = await categoryRepository.findById(category_id);
+        
+        if (!categoryById) {
+            throw new AppErrors("ID not valid bla bla | Category not found", 404);
         }
 
-        const category = await categoryRepository.findById(category_id);
-
-        return category;
+        return categoryById;
     }
 }

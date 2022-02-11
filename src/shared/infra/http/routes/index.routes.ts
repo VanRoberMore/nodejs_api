@@ -2,8 +2,13 @@ import { Router } from 'express';
 
 //import registerRoutes from "../../../../modules/auth/infra/http/routes/register.routes";
 //import loginRoutes from "../../../../modules/auth/infra/http/routes/login.routes";
-//import authenticRoutes from "../../../../modules/auth/infra/http/routes/authentic.routes";
+
+//import resetRoutes from "../../../../modules/auth/infra/http/routes/reset.routes";
+
+
+//import authenticatedRoutes from "../../../../modules/auth/infra/http/routes/authenticated.routes";
 //import authorizedRoutes from "../../../../modules/auth/infra/http/routes/authorized.routes";
+
 
 //import dashboardRoutes from "../../../../modules/auth/infra/http/routes/dashboard.routes";
 
@@ -19,6 +24,8 @@ const routes = Router();
 
     //routes.use("/register", registerRoutes);
     //routes.use('/login', loginRoutes);
+    //routes.use('/reset', resetRoutes);
+
     //routes.use('/profile', profileRoutes);
 
     //routes.use('/authenticated', authenticatedRoutes);
@@ -28,8 +35,8 @@ const routes = Router();
 
     routes.use("/clients", clientsRoutes);
     routes.use("/categories", categoriesRoutes);
-    routes.use("/products", clientsRoutes);
-    routes.use("/orders", clientsRoutes);
+    routes.use("/products", productsRoutes);
+    routes.use("/orders", ordersRoutes);
 
     //routes.use('/logout', logoutRoutes);
 

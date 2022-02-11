@@ -6,17 +6,15 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    Unique,
     JoinColumn,
     ManyToMany,
     ManyToOne,
     OneToMany,
 } from 'typeorm';
 
-import Order_Product from '../../../../orders/infra/typeorm/entities/Order_Product';
+import Order_Products from '../../../../orders/infra/typeorm/entities/Order_Products';
 
 @Entity('products')
-@Unique(['id'])
 export default class Product {
     @PrimaryGeneratedColumn('increment')
     product_id!: number;
@@ -27,11 +25,17 @@ export default class Product {
     @Column()
     description: string;
 
+    @Column()
+    image: string;
+
     @Column('float', {scale: 10, precision: 2})
     price: number;
 
     @Column()
     quantity: number;
+
+    @Column()
+    category_id: number;
 
     /**
    * Muitos produtos podem ter a mesma categoria
@@ -41,12 +45,14 @@ export default class Product {
     category: Category;
 
 
-    @Column()
-    image: string;
+    @OneToMany(() => Order_Products, (order_products) => order_products.product)
+    order_products: Order_Products[];
 
-    @CreateDateColumn()
+    @CreateDateColumn({ select: false })
     created_at: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ select: false })
     updated_at: Date;
+
+
 }

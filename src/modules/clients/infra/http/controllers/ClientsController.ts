@@ -69,7 +69,7 @@ class ClientsController {
     const clientRepository = new ClientRepository();
     await clientRepository.delete(Number(id));
 
-    return response.json({ message: "Cliente removido com sucesso!" });
+    return response.json({ message: "Client delete successfully !" });
   }
 
 

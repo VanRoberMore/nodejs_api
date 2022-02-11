@@ -1,7 +1,6 @@
 import OrderDTO from '../dtos/OrderDTO';
 import Order from '../infra/typeorm/entities/Order';
 
-
 export default interface IOrderRepository {
     create(data: IOrderDTO): Promise<Order>;
     index(): Promise<Order[]>;

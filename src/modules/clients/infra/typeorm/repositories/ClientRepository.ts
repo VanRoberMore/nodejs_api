@@ -1,46 +1,46 @@
+import { DeleteResult, getRepository, Like, Repository } from "typeorm";
 import IClientDTO from "../../../dtos/IClientDTO";
 import IClientRepository from "../../../repositories/IClientRepository";
 
-import { DeleteResult, getRepository, Like, Repository } from "typeorm";
 import Client from "../entities/Client";
 
 
 export default class ClientRepository implements IClientRepository {
-  private ormRepository: Repository<Client>;
+  private clientRepository: Repository<Client>;
 
   constructor() {
-    this.ormRepository = getRepository(Client);
+    this.clientRepository = getRepository(Client);
   }
 
   public async create(data: IClientDTO): Promise<Client> {
-    const client = this.ormRepository.create(data);
+    const createClient = this.clientRepository.create(data);
       
-    await this.ormRepository.save(client);
+    await this.clientRepository.save(createClient);
 
-    return client;
+    return createClient;
   }
 
   public async update(data: Partial<IClientDTO>): Promise<Client> {
     
-    const client = await this.ormRepository.save(data);
+    const client = await this.clientRepository.save(data);
 
     return client;
   }
   
   public async index(): Promise<Client[]> {
-    const client = await this.ormRepository.find();
+    const clients = await this.clientRepository.find();
 
-    return client;
+    return clients;
   }
 
   public async findById(id: number): Promise<Client | undefined> {
-    const client = await this.ormRepository.findOne(Number(id));
+    const client = await this.clientRepository.findOne(Number(id));
 
     return client;
   }
 
   public async findByCpf(cpf: string): Promise<Client | undefined>{
-    const client = await this.ormRepository.findOne({ where: { cpf: Like(`%${cpf}%`) },
+    const client = await this.clientRepository.findOne({ where: { cpf: Like(`%${cpf}%`) },
     });
 
     return client;
@@ -48,19 +48,23 @@ export default class ClientRepository implements IClientRepository {
 
   
   public async findByName(name: string): Promise<Client | undefined> {
-    const client = await this.ormRepository.findOne({where: { name: Like(`%${name}%`) }});
+    const client = await this.clientRepository.findOne({where: { name: Like(`%${name}%`) }});
 
     return client;
   }     
 
   public async findByEmail(email: string): Promise<Client | undefined> {
-    const client = await this.ormRepository.findOne({where: { email: Like(`%${email}%`) }});
+    const client = await this.clientRepository.findOne({where: { email: Like(`%${email}%`) }});
 
     return client;
   }
 
   public async delete(id: number): Promise<DeleteResult> {
-    return this.ormRepository.delete(Number(id));
+    const clientRepository = new ClientRepository();
+
+    const deleteResult = await clientRepository.delete(Number(id));
+
+    return deleteResult;
   }
 
 
