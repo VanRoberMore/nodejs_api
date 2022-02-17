@@ -7,8 +7,8 @@ export default interface IOrderDTO {
     date: Date;
     status: string;
     payment_method: string;
-    order_value: number;
+    order_value?: number;
     discount: number;
-    products: IOrder_ProductDTO[];
+    order_products: IOrder_ProductDTO[];
 }
 

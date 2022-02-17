@@ -1,57 +1,59 @@
 import {
-    MigrationInterface,
-    QueryRunner,
-    Table,
-    TableForeignKey,
+        MigrationInterface,
+        QueryRunner,
+        Table,
+        TableForeignKey,
 } from 'typeorm';
 
-export class CreateProducts1644104440994 implements MigrationInterface {
+export class CreateOrders1644435493103 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
-          new Table({
-            name: "products",
-            columns: [
+            new Table({
+                name: "orders",
+                columns: [
                     {
-                        name: "product_id",
+                        name: "order_id",
                         type: "int",
                         isPrimary: true,
                         isGenerated: true,
                         generationStrategy: "increment",
                     },
                     {
-                        name: "name",
+                        name: "client_id",
+                        type: "int",
+                        isNullable: true,
+                    },
+                    {
+                        name: "date",
+                        type: "timestamp",
+                        default: "now()",
+                    },
+                    {
+                        name: "status",
                         type: "varchar",
                         length: "85",
                         isNullable: false,
                     },
                     {
-                        name: "description",
+                        name: "payment_method",
                         type: "varchar",
-                        length: "150",
+                        length: "50",
                         isNullable: false,
                     },
                     {
-                        name: "price",
+                        name: "order_value",
                         type: "float",
                         precision: 10,
                         scale: 2,
                         isNullable: false,
                     },
                     {
-                        name: "quantity",
-                        type: "int",
-                        isNullable: false,
-                    },
-                    {
-                        name: "category_id", // nome da coluna que será chave estrangeira
-                        type: "int", // mesmo tipo do id da tabela categorias
+                        name: "discount",
+                        type: "float",
+                        precision: 4,
+                        scale: 2,
                         isNullable: true,
-                    },
-                    {
-                        name: "image",
-                        type: "varchar",
-                        isNullable: false,
                     },
                     {
                         name: "created_at",
@@ -62,30 +64,28 @@ export class CreateProducts1644104440994 implements MigrationInterface {
                         name: "updated_at",
                         type: "timestamp",
                         default: "now()",
-
                     },
-                ]
-
-            })
-
+                ],
+            }),
         );
 
-        // cria uma nova chave estrangeira
+        // chave estrangeira
         await queryRunner.createForeignKey(
-            'products', // nome da tabela que será criada a chave estrangeira
+            "orders",
             new TableForeignKey({
-                name: "CategoryId",
-                columnNames: ['category_id'],
-                referencedColumnNames: ['category_id'],
-                referencedTableName: 'categories',
-                onDelete: 'SET NULL',
+                name: "ClientId",
+                columnNames: ["client_id"],
+                referencedColumnNames: ["id"],
+                referencedTableName: "clients",
+                onDelete: "SET NULL",
             }),
-        )
-
+        );
     }
+    
+
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('products');
+        await queryRunner.dropTable("orders");
     }
 
 }

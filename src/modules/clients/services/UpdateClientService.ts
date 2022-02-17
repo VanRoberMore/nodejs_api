@@ -10,10 +10,6 @@ export default class UpdateClientService{
         const clientRepository = new ClientRepository();
         const findClientById = new FindClientByIdService();
 
-        if (!data.id) {
-            throw new AppErrors("ID not valid | Client not found", 404);
-        }
-
         await findClientById.execute(Number(data.id));
 
         const clientPatch = await clientRepository.update(data);

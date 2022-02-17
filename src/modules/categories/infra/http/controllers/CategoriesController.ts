@@ -3,6 +3,7 @@ import CategoryRepository from "../../typeorm/repositories/CategoryRepository";
 
 import CreateCategoryService from "../../../services/CreateCategoryService";
 import UpdateCategoryService from "../../../services/UpdateCategoryService";
+import FindCategoryByIdService from '../../../services/FindCategoryByIdService';
 
 class CategoriesController {
 
@@ -38,8 +39,8 @@ class CategoriesController {
     public static async findById(request: Request, response: Response): Promise<Response> {
         const { category_id } = request.params;
     
-        const categoryRepository = new CategoryRepository();
-        const categoryById = await categoryRepository.findById(Number(category_id));
+        const categoryRepository = new FindCategoryByIdService();
+        const categoryById = await categoryRepository.execute(Number(category_id));
     
         return response.json(categoryById);
     }

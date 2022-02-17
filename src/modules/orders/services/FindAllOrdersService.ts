@@ -1,5 +1,5 @@
 import Order from '../infra/typeorm/entities/Order';
-import OrderRepository from '../repositories/OrderRepository';
+import OrderRepository from '../infra/typeorm/repositories/OrderRepository';
 
 
 export default class FindAllOrdersService {

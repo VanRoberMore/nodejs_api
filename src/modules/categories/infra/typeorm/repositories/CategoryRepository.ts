@@ -3,44 +3,45 @@ import ICategoryRepository from '../../../../categories/repositories/ICategoryRe
 
 import { DeleteResult, getRepository, Repository } from 'typeorm';
 
-import Category from '../../../../categories/infra/typeorm/entities/Category';
+import Category from '../entities/Category';
 
 
 export default class CategoryRepository implements ICategoryRepository {
-  private ormRepository: Repository<Category>;
+  private categoryRepository: Repository<Category>;
 
   constructor() {
-    this.ormRepository = getRepository(Category);
+    this.categoryRepository = getRepository(Category);
   }
 
   public async create(data: ICategoryDTO): Promise<Category> {
-    const category = this.ormRepository.create(data);
+    const createCategory = this.categoryRepository.create(data);
 
-    await this.ormRepository.save(category);
+    await this.categoryRepository.save(createCategory);
 
-    return category;
+    return createCategory;
   }
 
+
   public async index(): Promise<Category[]> {
-    const categories = await this.ormRepository.find();
+    const categories = await this.categoryRepository.find();
 
     return categories;
   }
 
   public async findById(category_id: number): Promise<Category | undefined> {
-    const category = await this.ormRepository.findOne(Number(category_id));
+    const category = await this.categoryRepository.findOne(Number(category_id));
 
     return category;
   }
 
   public async update(data: Partial<ICategoryDTO>): Promise<Category> {
-    const category = await this.ormRepository.save(data);
+    const category = await this.categoryRepository.save(data);
 
     return category;
     }
 
   public async delete(category_id: number): Promise<DeleteResult> {
-    const category = await this.ormRepository.delete(Number(category_id));
+    const category = await this.categoryRepository.delete(Number(category_id));
 
     return category;
   }
