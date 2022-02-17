@@ -21,38 +21,36 @@ export default class OrderRepository implements IOrderRepository {
 
         return order;
         }
+        
 
     public async update(data: Partial<IOrderDTO>): Promise<Order> {
-        const orderRepository = new OrderRepository();
-
-        const updateOrder = await orderRepository.update(data);
+        const updateOrder = await this.orderRepository.save(data);
 
         return updateOrder;
-        
     }
 
-    public async index(): Promise<Order[]> {
-        const orderRepository = new OrderRepository();
 
-        const allOrders = await orderRepository.index();
+    public async index(): Promise<Order[]> {
+        const allOrders = await this.orderRepository.find();
 
         return allOrders;
 
     }
 
     public async findById(order_id: number): Promise<Order | undefined> {
-        const orderRepository = new OrderRepository();
-
-        const orderById = await orderRepository.findById(Number(order_id));
+        const orderById = await this.orderRepository
+            .createQueryBuilder('order')
+            .leftJoinAndSelect('order.order_products', 'op')
+            .leftJoinAndSelect('op.product', 'p')
+            .where('order.order_id = :order_id', { order_id })
+            .getOne();  // getOne() retorna apenas um resultado
 
         return orderById;
 
     }
 
     public async delete(order_id: number): Promise<DeleteResult> {
-        const orderRepository = new OrderRepository();
-
-        const deleteResult = await orderRepository.delete(Number(order_id));
+        const deleteResult = await this.orderRepository.delete(Number(order_id));
 
         return deleteResult;
 

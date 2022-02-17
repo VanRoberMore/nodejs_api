@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
-import ProductRepository from '../../typeorm/repositories/ProductRepository';
-
 
 import CreateProductService from '../../../services/CreateProductService';
 import UpdateProductService from '../../../services/UpdateProductService';
+import FindAllProductsService from '../../../services/FindAllProductsService';
 import FindProductByIdService from '../../../services/FindProductByIdService';
 import DeleteProductService from '../../../services/DeleteProductService';
+import { DeleteResult } from 'typeorm';
 
 
 class ProductsController {
@@ -21,9 +21,9 @@ class ProductsController {
 
 
     public async update(request: Request, response: Response): Promise<Response> {
-        const { product_id } = request.params;
         const data = request.body;
-
+        const { product_id } = request.params;
+        
         const updateProduct = new UpdateProductService();
 
         const dataToUpdate = { ...data, product_id: Number(product_id) };
@@ -34,9 +34,8 @@ class ProductsController {
     }
 
     public async index(request: Request, response: Response): Promise<Response> {
-        const productRepository = new ProductRepository();
-
-        const allProducts = await productRepository.index();
+        const findAllProducts = new FindAllProductsService();
+        const allProducts = await findAllProducts.execute();
 
         return response.json(allProducts);
 
@@ -57,11 +56,11 @@ class ProductsController {
     public async delete(request: Request, response: Response): Promise<Response> {
         const { product_id } = request.params;
 
-        const deleteProduct = new ProductRepository();
+        const deleteProduct = new DeleteProductService();
 
-        await deleteProduct.delete(Number(product_id));
+        const deleteResult = await deleteProduct.execute(Number(product_id));
 
-        return response.json({message: 'Product deleted successfully!'});
+        return response.json(deleteResult);
 
     }
 

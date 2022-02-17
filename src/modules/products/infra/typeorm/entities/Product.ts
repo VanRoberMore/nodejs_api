@@ -1,5 +1,3 @@
-import Category from '../../../../categories/infra/typeorm/entities/Category';
-
 import {
     Column,
     Entity,
@@ -13,8 +11,10 @@ import {
 } from 'typeorm';
 
 import Order_Products from '../../../../orders/infra/typeorm/entities/Order_Products';
+import Category from '../../../../categories/infra/typeorm/entities/Category';
 
 @Entity('products')
+
 export default class Product {
     @PrimaryGeneratedColumn('increment')
     product_id!: number;
@@ -43,7 +43,6 @@ export default class Product {
     @ManyToOne(() => Category, (category) => category.products)
     @JoinColumn({name: 'category_id'})
     category: Category;
-
 
     @OneToMany(() => Order_Products, (order_products) => order_products.product)
     order_products: Order_Products[];

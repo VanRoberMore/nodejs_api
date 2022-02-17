@@ -2,9 +2,9 @@ import {
     Entity,
     Column,
     PrimaryGeneratedColumn,
+    Unique,
     CreateDateColumn,
     UpdateDateColumn,
-    Unique,
     JoinColumn,
     ManyToOne,
     OneToMany,
@@ -12,9 +12,10 @@ import {
 
 import Order_Products from './Order_Products';
 import Client from '../../../../clients/infra/typeorm/entities/Client';
-
 @Entity('orders')
+
 @Unique(['order_id'])
+
 export default class Order {
     @PrimaryGeneratedColumn('increment')
     order_id!: number;

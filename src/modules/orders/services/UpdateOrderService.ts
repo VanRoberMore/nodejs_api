@@ -15,7 +15,7 @@ export default class CreateOrderService {
 
         await findOrderById.execute(Number(data.order_id));
 
-        const orderPatch = await orderRepository.create(data);
+        const orderPatch = await orderRepository.update(data);
 
         return orderPatch;
     }

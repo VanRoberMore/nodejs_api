@@ -6,7 +6,6 @@ import {
     PrimaryGeneratedColumn,
     CreateDateColumn,
     UpdateDateColumn,
-    Unique,
     JoinColumn,
     ManyToOne,
 
@@ -16,6 +15,7 @@ import Order from "./Order"
 
 
 @Entity('order_products')
+
 export default class Order_Products {
     
         @PrimaryGeneratedColumn('increment')

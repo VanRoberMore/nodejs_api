@@ -41,24 +41,31 @@ export class CreateOrderProducts1644439469468 implements MigrationInterface {
                         default: "now()",
                     },
                 ],
-                foreignKeys: [
-                    new TableForeignKey({
-                        name: "OrderProducts_Order",
-                        columnNames: ["order_id"],
-                        referencedColumnNames: ["order_id"],
-                        referencedTableName: "orders",
-                        onDelete: "CASCADE",
-                    }),
-                    new TableForeignKey({
-                        name: "OrderProducts_Product",
-                        columnNames: ["product_id"],
-                        referencedColumnNames: ["product_id"],
-                        referencedTableName: "products",
-                        onDelete: "CASCADE",
-                    }),
-                ],
+
             }),
         );
+
+        await queryRunner.createForeignKey(
+        "order_products",
+            new TableForeignKey({
+                name: "OrderProducts_Order",
+                columnNames: ["order_id"],
+                referencedColumnNames: ["order_id"],
+                referencedTableName: "orders",
+                onDelete: "CASCADE",
+           }),
+    );
+
+        await queryRunner.createForeignKey(
+        "order_products",
+        new TableForeignKey({
+            name: "OrderProducts_Product",
+            columnNames: ["product_id"],
+            referencedColumnNames: ["product_id"],
+            referencedTableName: "products",
+            onDelete: "CASCADE",
+        }),
+    );
 
     }
 
